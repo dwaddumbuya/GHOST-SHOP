@@ -35,39 +35,50 @@ let cart = [];
 
 console.log("Products loaded successfully!");
 
-// --- NEW SKILL: DISPLAYING PRODUCTS WITH IMAGES ---
 
-// 1. We grab the products grid from HTML
-const productsGrid = document.getElementById("products-grid");
+// --- NEW SKILL: CART MANAGEMENT & ACCUMULATION ---
 
-function displayProducts() {
-    // Clear the grid before displaying
-    productsGrid.innerHTML = "";
+// 1. We grab the cart section from HTML
+const cartSection = document.getElementById("cart-section");
 
-    // Loop through our tech products
-    products.forEach(function(product) {
-        // Create a card container for the product
-        let productCard = document.createElement("div");
-        productCard.classList.add("product-card");
-
-        // Inject the HTML inside the card (including the image URL!)
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-img">
-            <h3>${product.name}</h3>
-            <p class="category">${product.category}</p>
-            <p class="price">${product.price} GMD</p>
-            <button class="btn-add" onclick="addToCart(${product.id})">Add to Cart 🛒</button>
-        `;
-
-        // Push the card into our HTML grid
-        productsGrid.appendChild(productCard);
-    });
-}
-
-// Function placeholder for the cart (we will code it next!)
+// 2. Function to add a product to the cart
 function addToCart(productId) {
-    console.log("Product clicked! ID:", productId);
+    // Find the product in our database using its ID
+    const productFound = products.find(product => product.id === productId);
+
+    // Push it inside our cart array
+    cart.push(productFound);
+
+    // Refresh the cart display
+    displayCart();
 }
 
-// Launch the display
-displayProducts();
+// 3. Function to calculate the total and display the cart on screen
+function displayCart() {
+    // If the cart is empty
+    if (cart.length === 0) {
+        cartSection.innerHTML = "<h2>Your Cart is empty 🛒</h2>";
+        return;
+    }
+
+    // If we have items, let's calculate the total price
+    let totalPrice = 0;
+    let cartHTML = "<h2>Your Cart 🛒</h2><ul>";
+
+    // Loop through the items in the cart
+    cart.forEach(function(item) {
+        cartHTML += `<li>${item.name} - ${item.price} GMD</li>`;
+        totalPrice += item.price; // Accumulate the price
+    });
+
+    cartHTML += "</ul>";
+    
+    // Add the total price at the bottom of the list
+    cartHTML += `<h3>Total: <span style="color: #a6e3a1;">${totalPrice} GMD</span></h3>`;
+
+    // Inject everything into our HTML cart section
+    cartSection.innerHTML = cartHTML;
+}
+
+// Launch displayCart once at the beginning to show "Cart is empty"
+displayCart();
