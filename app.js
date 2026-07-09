@@ -36,6 +36,7 @@ let cart = [];
 // 1. We grab our HTML sections
 const productsGrid = document.getElementById("products-grid");
 const cartSection = document.getElementById("cart-section");
+const userGreeting = document.getElementById("user-greeting");
 
 // 2. Function to display tech products with their images
 function displayProducts() {
@@ -109,7 +110,7 @@ function loginUser() {
     }
 
     // 3. On affiche le message de bienvenue
-    console.log("Welcome back, " + savedName + " ! 👋");
+    userGreeting.textContent = "Welcome back, " + savedName + " ! 👋";
 }
 
 // On n'oublie pas de lancer la fonction
