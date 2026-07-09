@@ -93,8 +93,24 @@ displayProducts();
 displayCart();
 
 console.log("Ghost-Shop core loaded successfully! 🚀");
+
 function loginUser() {
-    let userName = prompt("What is your name?");
-    console.log(userName);
+    // 1. On regarde si on a déjà un nom dans le tiroir "username"
+    let savedName = localStorage.getItem("username");
+
+    // 2. Si le tiroir est vide (null), on demande le nom
+    if (savedName === null) {
+        let userName = prompt("What is your name?");
+        
+        // On range le nom dans la mémoire pour la prochaine fois
+        localStorage.setItem("username", userName);
+        
+        savedName = userName; 
+    }
+
+    // 3. On affiche le message de bienvenue
+    console.log("Welcome back, " + savedName + " ! 👋");
 }
+
+// On n'oublie pas de lancer la fonction
 loginUser();
